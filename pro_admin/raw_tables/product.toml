@@ -1,0 +1,60 @@
+[table]
+# Title on the table header
+title = "Products"
+# Display density of the table view
+# Available options: "large" / "middle" / "small"
+table_size = "middle"
+# Number of rows on each page
+page_size = 30
+# Default table sorter
+order_by = { field = "product_id", order = "desc" }
+# Display following columns in sequence from left to right in the table view
+columns = [
+    { title = "ID", field = "product_id", width = 80 },
+    { title = "Thumbnail", field = "thumb_nail_photo", input_type = "image", width = 120 },
+    { title = "Product Category", field = "name", relation = "product_category", ellipsis = false, width = 180 },
+    { field = "name", width = 300 },
+    { field = "product_number" },
+    { field = "color" },
+    { field = "standard_cost" },
+    { field = "list_price" },
+    { field = "size" },
+    { field = "weight" },
+]
+# Hide columns in the table view
+hidden_columns = [
+    "size",
+    "weight",
+]
+# Display all columns that are not included in `columns`, this is on by default
+all_columns = false
+
+[filter]
+# Columns that are hidden on the filter panel
+hidden_columns = [
+    "thumb_nail_photo",
+]
+
+[create]
+# Enable create for this table
+enable = true
+# Columns that are hidden on the create form
+hidden_columns = [
+    "created_date"
+]
+
+[update]
+# Enable update for this table
+enable = true
+# Columns that are hidden on the update form
+hidden_columns = [
+    "created_date"
+]
+# Columns that are readonly on the update form
+readonly_columns = [
+    "product_id"
+]
+
+[delete]
+# Enable delete for this table
+enable = true

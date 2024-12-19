@@ -1,0 +1,21 @@
+[table]
+columns = [
+    { title = "ID", field = "address_id", width = 80 },
+]
+hidden_columns = [
+    "rowguid",
+]
+
+[filter]
+hidden_columns = [
+    "address_line2",
+]
+
+[create]
+enable = true
+
+[update]
+enable = true
+
+[delete]
+enable = true

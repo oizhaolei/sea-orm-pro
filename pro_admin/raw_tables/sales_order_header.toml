@@ -1,0 +1,26 @@
+[table]
+columns = [
+    { title = "ID", field = "sales_order_id", width = 80 },
+]
+hidden_columns = [
+    "revision_number",
+    "due_date",
+    "ship_date",
+    "status",
+    "online_order_flag",
+    "customer_id",
+    "ship_to_address_id",
+    "bill_to_address_id",
+    "credit_card_approval_code",
+    "comment",
+    "rowguid",
+]
+
+[create]
+enable = true
+
+[update]
+enable = true
+
+[delete]
+enable = true

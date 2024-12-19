@@ -1,0 +1,101 @@
+# Title of info card section
+title = "SeaORM Pro"
+# Subtitle of info card section
+subtitle = "Build professional admin panels with SeaORM Pro."
+
+# 1st info card
+[[info.card]]
+# Title of info card
+title = "What is SeaORM Pro?"
+# Description of info card
+description = "SeaORM Pro is full-stack framework allowing you to quickly and easily launch an admin panel for your application."
+# Learn more link of info card
+link = "https://www.sea-ql.org/sea-orm-pro/"
+
+# 2nd info card
+[[info.card]]
+# Title of info card
+title = "Download the Demo"
+# Description of info card
+description = "The source code of this demo is hosted on SeaQL/sea-orm-pro."
+# Learn more link of info card
+link = "https://github.com/SeaQL/sea-orm-pro"
+
+# 3rd info card
+[[info.card]]
+# Title of info card
+title = "Learn More"
+# Description of info card
+description = "Learn how to customize the admin panel to make it your own!"
+# Learn more link of info card
+link = "https://www.sea-ql.org/sea-orm-pro/docs/site-config/overview/"
+
+# Chart grid
+[[row]]
+# Row gutter
+gutter = 16
+
+# 1st chart
+[[row.col]]
+# Span half row
+span = 12
+# Title of the chart
+title = "New Customers By Month"
+
+[row.col.chart]
+# An unique key for fetching chart data
+chart = "new_customer_by_month"
+# Kind of chart
+kind = "line"
+# Time scale of datetime picker
+timescale = "month"
+# Default start of datetime
+from_date = "2024-01"
+# Default end of datetime
+to_date = "2024-12"
+# Title of X axis
+x_axis_title = "Month"
+# Title of Y axis
+y_axis_title = "No. of Customers"
+
+# 2nd chart
+[[row.col]]
+# Span half row
+span = 12
+# Title of the chart
+title = "Sales Value of Week"
+
+[row.col.chart]
+# An unique key for fetching chart data
+chart = "sales_value_by_day"
+# Kind of chart
+kind = "line"
+# Time scale of datetime picker
+timescale = "day"
+# Default start of datetime
+from_date = "2024-12-22"
+# Default end of datetime
+to_date = "2024-12-28"
+# Default dynamic date range based on current date
+# default_date_range = "last 7 days"
+# Title of X axis
+x_axis_title = "Date"
+# Title of Y axis
+y_axis_title = "Sales"
+
+# 3rd chart
+[[row.col]]
+# Span entire row
+span = 24
+# Title of the chart
+title = "Products of each Product Category"
+
+[row.col.chart]
+# An unique key for fetching chart data
+chart = "product_by_product_category"
+# Kind of chart
+kind = "pie"
+# Title of X axis
+x_axis_title = "Product Category"
+# Title of Y axis
+y_axis_title = "No. of Products"

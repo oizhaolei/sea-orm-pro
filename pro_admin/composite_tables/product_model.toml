@@ -1,0 +1,73 @@
+[parent]
+name = "product_model"
+
+[parent.table]
+columns = [
+    { title = "ID", field = "product_model_id", width = 80 },
+    { field = "name", width = 200 },
+    { field = "catalog_description", width = 800 },
+]
+hidden_columns = [
+    "rowguid",
+    "created_date",
+]
+
+[parent.create]
+enable = true
+
+[parent.update]
+enable = true
+
+[parent.delete]
+enable = true
+
+
+[[children]]
+relation = "product"
+
+[children.table]
+columns = [
+    { title = "ID", field = "product_id", width = 80 },
+    { title = "Thumbnail", field = "thumb_nail_photo", input_type = "image", width = 120 },
+    { field = "name", width = 300 },
+    { field = "product_number" },
+    { field = "color" },
+    { field = "standard_cost" },
+    { field = "list_price" },
+    { field = "size" },
+    { field = "weight" },
+    { title = "Product Category", field = "name", relation = "product_category", width = 180 },
+]
+all_columns = false
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true
+
+
+[[children]]
+relation = "product_description"
+
+[children.table]
+columns = [
+    { title = "ID", field = "product_description_id", width = 80 },
+    { field = "description", width = 1000 },
+]
+hidden_columns = [
+    "rowguid",
+    "created_date",
+]
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true

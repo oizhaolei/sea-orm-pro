@@ -1,0 +1,139 @@
+[parent]
+# Table name of the parent table
+name = "sales_order_header"
+
+[parent.table]
+columns = [
+    { title = "ID", field = "sales_order_id", width = 80 },
+    { field = "order_date" },
+    { field = "purchase_order_number" },
+    { field = "account_number" },
+    { field = "ship_method" },
+    { field = "sub_total" },
+    { field = "tax_amt" },
+    { field = "freight" },
+]
+all_columns = false
+
+[parent.create]
+enable = true
+
+[parent.update]
+enable = true
+
+[parent.delete]
+enable = true
+
+
+[[children]]
+# Name of SeaORM relation
+relation = "customer"
+
+[children.table]
+columns = [
+    { title = "ID", field = "customer_id", width = 80 },
+    { field = "title", width = 100 },
+    { field = "first_name", width = 120 },
+    { field = "middle_name", width = 120 },
+    { field = "last_name", width = 120 },
+]
+hidden_columns = [
+    "name_style",
+    "suffix",
+    "email_address",
+    "phone",
+    "rowguid",
+    "created_date",
+]
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true
+
+
+
+[[children]]
+# Name of SeaORM relation
+relation = "address1"
+
+[children.table]
+title = "Shipping Address"
+columns = [
+    { title = "ID", field = "address_id", width = 80 },
+]
+hidden_columns = [
+    "rowguid",
+    "created_date",
+]
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true
+
+
+[[children]]
+# Name of SeaORM relation
+relation = "address2"
+
+[children.table]
+title = "Billing Address"
+columns = [
+    { title = "ID", field = "address_id", width = 80 },
+]
+hidden_columns = [
+    "rowguid",
+    "created_date",
+]
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true
+
+
+[[children]]
+# Name of SeaORM relation
+relation = "sales_order_detail"
+
+[children.table]
+columns = [
+    { title = "Thumbnail", field = "thumb_nail_photo", relation = "product", input_type = "image", width = 120 },
+    { field = "name", relation = "product", width = 300 },
+    { field = "product_number", relation = "product" },
+    { field = "color", relation = "product" },
+    { field = "size", relation = "product" },
+    { field = "weight", relation = "product" },
+    { field = "order_qty" },
+    { field = "unit_price" },
+    { field = "unit_price_discount" },
+]
+hidden_columns = [
+    "sales_order_id",
+    "sales_order_detail_id",
+    "product_id",
+    "rowguid",
+    "created_date",
+]
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true

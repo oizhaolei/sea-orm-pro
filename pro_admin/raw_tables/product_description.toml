@@ -1,0 +1,17 @@
+[table]
+columns = [
+    { title = "ID", field = "product_description_id", width = 80 },
+    { field = "description", width = 1000 },
+]
+hidden_columns = [
+    "rowguid",
+]
+
+[create]
+enable = true
+
+[update]
+enable = true
+
+[delete]
+enable = true

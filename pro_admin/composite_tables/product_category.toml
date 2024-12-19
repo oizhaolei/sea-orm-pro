@@ -1,0 +1,50 @@
+[parent]
+name = "product_category"
+
+[parent.table]
+columns = [
+    { title = "ID", field = "product_category_id", width = 80 },
+    { title = "Category", field = "name" },
+    { title = "Parent Category ID", field = "parent_product_category_id", width = 180 },
+    { title = "Parent Category", field = "name", relation = "self_ref" },
+]
+hidden_columns = [
+    "rowguid",
+    "created_date",
+]
+
+[parent.create]
+enable = true
+
+[parent.update]
+enable = true
+
+[parent.delete]
+enable = true
+
+
+[[children]]
+relation = "product"
+
+[children.table]
+columns = [
+    { title = "ID", field = "product_id", width = 80 },
+    { title = "Thumbnail", field = "thumb_nail_photo", input_type = "image", width = 120 },
+    { field = "name", width = 300 },
+    { field = "product_number" },
+    { field = "color" },
+    { field = "standard_cost" },
+    { field = "list_price" },
+    { field = "size" },
+    { field = "weight" },
+]
+all_columns = false
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true

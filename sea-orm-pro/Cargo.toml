@@ -1,0 +1,31 @@
+[package]
+name = "sea-orm-pro"
+version = "0.1.0"
+edition = "2021"
+authors = [
+    "Chris Tsang <chris.2y3@outlook.com>",
+    "Billy Chan <ccw.billy.123@gmail.com>",
+]
+description = "Helper library for SeaORM Pro (Admin Panel)"
+license = "MIT OR Apache-2.0"
+homepage = "https://www.sea-ql.org/sea-orm-pro/"
+documentation = "https://docs.rs/sea-orm-pro/"
+repository = "https://github.com/SeaQL/sea-orm-pro"
+categories = ["database"]
+keywords = ["async", "orm", "mysql", "postgres", "sqlite"]
+rust-version = "1.81"
+
+[package.metadata.docs.rs]
+features = ["default"]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[lib]
+name = "sea_orm_pro"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = { version = "1.0" }
+serde = { version = "1", features = ["derive"] }
+indexmap = { version = "2", features = ["serde"] }
+toml = { version = "0.8", features = ["preserve_order"] }
+walkdir = { version = "2.5.0", default-features = false }

@@ -1,0 +1,18 @@
+[table]
+columns = [
+    { title = "ID", field = "product_model_id", width = 80 },
+    { field = "name", width = 200 },
+    { field = "catalog_description", width = 800 },
+]
+hidden_columns = [
+    "rowguid",
+]
+
+[create]
+enable = true
+
+[update]
+enable = true
+
+[delete]
+enable = true

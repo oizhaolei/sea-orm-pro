@@ -1,0 +1,25 @@
+[table]
+columns = [
+    { title = "ID", field = "customer_id", width = 80 },
+    { field = "title", width = 100 },
+    { field = "first_name", width = 120 },
+    { field = "middle_name", width = 120 },
+    { field = "last_name", width = 120 },
+]
+hidden_columns = [
+    "name_style",
+    "suffix",
+    "email_address",
+    "phone",
+    "rowguid",
+    "created_date",
+]
+
+[create]
+enable = true
+
+[update]
+enable = true
+
+[delete]
+enable = true

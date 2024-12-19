@@ -1,0 +1,56 @@
+[parent]
+name = "customer"
+
+[parent.table]
+columns = [
+    { title = "ID", field = "customer_id", width = 80 },
+    { field = "title", width = 100 },
+    { field = "first_name", width = 120 },
+    { field = "middle_name", width = 120 },
+    { field = "last_name", width = 120 },
+]
+hidden_columns = [
+    "name_style",
+    "suffix",
+    "email_address",
+    "phone",
+    "rowguid",
+    "created_date",
+]
+order_by = { field = "customer_id", order = "desc" }
+
+[parent.create]
+enable = true
+
+[parent.update]
+enable = true
+
+[parent.delete]
+enable = true
+
+
+[[children]]
+relation = "customer_address"
+
+[children.table]
+title = "Address"
+columns = [
+    { title = "ID", field = "address_id", width = 80 },
+    { field = "address_type" },
+    { field = "address_line1", relation = "address" },
+    { field = "address_line2", relation = "address" },
+    { field = "city", relation = "address" },
+    { field = "state_province", relation = "address" },
+    { field = "country_region", relation = "address" },
+    { field = "postal_code", relation = "address" },
+]
+all_columns = false
+
+[children.create]
+enable = true
+
+[children.update]
+enable = true
+
+[children.delete]
+enable = true
