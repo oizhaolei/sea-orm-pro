@@ -1,5 +1,7 @@
 # SeaORM Pro
 
+<img src="https://www.sea-ql.org/sea-orm-pro/img/01_banner.png" width="100%"/>
+
 
 ## Installation
 
