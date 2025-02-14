@@ -124,5 +124,5 @@ Password: demo@sea-ql.org
 
 ## License
 
-Licensed under MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
+Licensed under MIT license ([LICENSE](https://github.com/SeaQL/sea-orm-pro/blob/main/LICENSE) or <http://opensource.org/licenses/MIT>)
 
