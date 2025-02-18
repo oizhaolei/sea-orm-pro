@@ -5,13 +5,14 @@ members = [".", "sea-orm-pro"]
 name = "sea-orm-pro-backend"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
 [dependencies]
-
-loco-rs = { version = "0.4.0" }
 migration = { path = "migration" }
 sea-orm-pro = { path = "sea-orm-pro", version = "0.1.0" }
-
+sea-orm = { version = "1.1.5", features = ["runtime-tokio-rustls", "macros", "debug-print"] }
+seaography = { version = "1.1.4", features = ["with-decimal", "with-chrono", "with-uuid", "field-snake-case"] }
+loco-rs = { version = "0.4.0" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 eyre = "0.6"
@@ -20,27 +21,12 @@ tokio-util = "0.7.11"
 async-trait = "0.1.74"
 tracing = "0.1.40"
 chrono = "0.4"
-validator = { version = "0.16" }
-sea-orm = { version = "1.1.5", features = ["runtime-tokio-rustls", "macros", "debug-print"] }
-seaography = { version = "1.1.4", features = ["with-decimal", "with-chrono", "with-uuid", "field-snake-case"] }
 async-graphql-axum = { version = "7.0" }
 tower-service = { version = "0.3" }
-
 axum = { version = "0.7.1", features = ["multipart"] }
-include_dir = "0.7"
 uuid = { version = "1.6.0", features = ["v4"] }
-tracing-subscriber = { version = "0.3.17", features = ["env-filter", "json"] }
 dotenvy = "0.15.7"
-
-reqwest = { version = "0.12.4", features = ["json"] }
-otpshka = { version = "1.0.2", features = ["std"] }
-aes-gcm = "0.10.3"
-bincode = "1.3.3"
 base64 = "0.22.1"
-walkdir = { version = "2.5.0", default-features = false }
-
-toml = { version = "0.8", features = ["preserve_order"]}
-indexmap = { version = "2", features = ["serde"]}
 csv = "1.3"
 encoding_rs = "0.8"
 encoding_rs_io = "0.1"

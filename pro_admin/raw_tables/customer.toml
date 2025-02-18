@@ -15,6 +15,13 @@ hidden_columns = [
     "created_date",
 ]
 
+[filter]
+hidden_columns = [
+    "customer_id",
+    "title",
+    "middle_name",
+]
+
 [create]
 enable = true
 
