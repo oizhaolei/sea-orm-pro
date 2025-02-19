@@ -1,4 +1,3 @@
-use eyre::eyre;
 use loco_rs::{environment::Environment, prelude::*};
 use migration::{IntoColumnRef, IntoIden};
 use sea_orm::{
@@ -27,7 +26,7 @@ pub async fn config(State(ctx): State<AppContext>) -> Result<Response> {
         // Debug: load config from disk on every request
         let config = ConfigParser::new()
             .load_config(CONFIG_ROOT)
-            .map_err(|e| eyre!(e))?;
+            .map_err(Into::<Box<dyn std::error::Error + Send + Sync>>::into)?;
         format::json(config)
     }
 }

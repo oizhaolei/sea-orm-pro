@@ -66,6 +66,8 @@ server:
         - OPTIONS
       # Set the value of the [`Access-Control-Max-Age`][mdn] header in seconds
       max_age: 86400
+    fallback:
+      enable: false
     static:
       enable: true
       must_exist: true
@@ -73,7 +75,7 @@ server:
       folder:
         uri: /
         path: assets
-      fallback: ./assets/admin/index.html
+      fallback: assets/admin/index.html
 
 # Worker Configuration
 workers:

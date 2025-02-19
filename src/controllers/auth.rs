@@ -48,7 +48,7 @@ async fn login(
     // Generate the JWT
     let jwt_secret = ctx.config.get_jwt_config()?;
     let token = jwt::JWT::new(&jwt_secret.secret)
-        .generate_token(&jwt_secret.expiration, params.email.to_string())
+        .generate_token(&jwt_secret.expiration, params.email.to_string(), None)
         .unwrap();
 
     // Login success
