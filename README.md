@@ -61,21 +61,6 @@ All Tables Completed Seeding!
 sh build_tools/download_frontend.sh
 ```
 
-You can also build the frontend from source:
-
-```sh
-cd pro_admin_frontend
-
-# Build frontend
-npm install && npm run build
-
-# Delete old frontend build
-rm -rf ../assets/admin
-
-# Copy new frontend build to backend server
-cp -r dist ../assets/admin
-```
-
 5. Start the Loco.rs server
 
 ```sh
