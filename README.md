@@ -61,6 +61,7 @@ All Tables Completed Seeding!
 sh build_tools/download_frontend.sh
 ```
 
+
 5. Start the Loco.rs server
 
 ```sh
