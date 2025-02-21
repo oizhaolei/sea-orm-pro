@@ -2,7 +2,7 @@ use async_graphql::dynamic::*;
 use axum_example_service::sea_orm;
 use axum_example_service::sea_orm::DatabaseConnection;
 use entity::post;
-use seaography::{Builder, BuilderContext, lazy_static, async_graphql};
+use seaography::{async_graphql, lazy_static, Builder, BuilderContext};
 
 seaography::register_entity_modules!([post]);
 

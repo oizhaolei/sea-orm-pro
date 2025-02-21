@@ -3,13 +3,13 @@ use std::path::Path;
 use async_trait::async_trait;
 use loco_rs::{
     app::{AppContext, Hooks},
+    bgworker::{BackgroundWorker, Queue},
     boot::{create_app, BootResult, StartMode},
+    config::Config,
     controller::AppRoutes,
     db::{self, truncate_table},
     environment::Environment,
     task::Tasks,
-    bgworker::{BackgroundWorker, Queue},
-    config::Config,
     Result,
 };
 use migration::Migrator;

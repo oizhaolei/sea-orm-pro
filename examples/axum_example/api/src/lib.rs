@@ -1,8 +1,6 @@
 mod flash;
 mod graphql;
 
-use sea_orm_pro::{ConfigParser, JsonCfg};
-use seaography::async_graphql;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{
@@ -19,6 +17,8 @@ use axum_example_service::{
 use entity::post;
 use flash::{get_flash_cookie, post_response, PostResponse};
 use migration::{Migrator, MigratorTrait};
+use sea_orm_pro::{ConfigParser, JsonCfg};
+use seaography::async_graphql;
 use serde::{Deserialize, Serialize};
 use std::env;
 use tera::Tera;
