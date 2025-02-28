@@ -80,6 +80,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo run --no-default-features --features sqlx-sqlite task seed_data
+      - run: cargo test --no-default-features --features sqlx-sqlite
 
   mysql:
     name: MySQL
@@ -111,6 +112,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: mysql -uroot -h 127.0.0.1 mysql -e 'CREATE DATABASE `AdventureWorksLT2016`'
       - run: cargo run --no-default-features --features sqlx-mysql task seed_data
+      - run: cargo test --no-default-features --features sqlx-mysql
 
   mariadb:
     name: MariaDB
@@ -144,6 +146,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: mysql -uroot -h 127.0.0.1 mysql -e 'CREATE DATABASE `AdventureWorksLT2016`'
       - run: cargo run --no-default-features --features sqlx-mysql task seed_data
+      - run: cargo test --no-default-features --features sqlx-mysql
 
   postgres:
     name: Postgres
@@ -173,3 +176,4 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: psql -q postgres://root:root@localhost/postgres -c 'CREATE DATABASE "AdventureWorksLT2016"'
       - run: cargo run --no-default-features --features sqlx-postgres task seed_data
+      - run: cargo test --no-default-features --features sqlx-postgres

@@ -17,5 +17,7 @@ target/
 
 # SQLite
 *.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 .DS_Store

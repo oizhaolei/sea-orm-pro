@@ -38,7 +38,7 @@ pub struct DashboardBody {
     pub to: Option<DateTime>,
 }
 
-#[derive(Debug, Deserialize, Serialize, FromQueryResult)]
+#[derive(Debug, Deserialize, Serialize, FromQueryResult, PartialEq)]
 pub struct Datum {
     pub key: String,
     pub val: i32,
