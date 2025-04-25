@@ -156,6 +156,8 @@ pub struct RawTableCfg {
     pub filter: FilterCfg,
     /// View config
     pub view: ViewCfg,
+    /// Editor config
+    pub editor: EditorCfg,
     /// Create config
     pub create: CreateCfg,
     /// Update config
@@ -241,6 +243,38 @@ pub struct ColumnCfg {
     /// Clip long text
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ellipsis: Option<bool>,
+}
+
+/// Editor config
+#[derive(Debug, Default, Serialize, Deserialize)]
+#[serde(default)]
+pub struct EditorCfg {
+    /// Use editor for this table?
+    pub enable: bool,
+    /// Display field value as title
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title_field: Option<String>,
+    /// Field specific config
+    pub fields: Vec<FieldCfg>,
+}
+
+/// Field specific config
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct FieldCfg {
+    /// Display title
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    /// Name of the SQL column
+    pub field: String,
+    /// Column span
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub span: Option<usize>,
+    /// Data type
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub input_type: Option<String>,
+    /// Row length of textarea
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rows: Option<usize>,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

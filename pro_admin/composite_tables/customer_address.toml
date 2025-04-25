@@ -19,6 +19,10 @@ hidden_columns = [
 ]
 order_by = { field = "customer_id", order = "desc" }
 
+[parent.editor]
+enable = true
+title_field = "first_name"
+
 [parent.create]
 enable = true
 
@@ -45,6 +49,10 @@ columns = [
     { field = "postal_code", relation = "address" },
 ]
 all_columns = false
+
+[children.editor]
+enable = true
+title_field = "address_type"
 
 [children.create]
 enable = true

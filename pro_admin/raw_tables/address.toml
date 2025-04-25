@@ -11,6 +11,21 @@ hidden_columns = [
     "address_line2",
 ]
 
+[editor]
+enable = true
+title_field = "address_type"
+fields = [
+    { title = "ID", field = "address_id", span = 8 },
+    { field = "rowguid", span = 8 },
+    { field = "created_date", span = 8 },
+    { field = "address_line1", span = 12, input_type = "textarea", rows = 4 },
+    { field = "address_line2", span = 12, input_type = "textarea", rows = 4 },
+    { field = "city", span = 6 },
+    { field = "state_province", span = 6 },
+    { field = "country_region", span = 6 },
+    { field = "postal_code", span = 6 },
+]
+
 [create]
 enable = true
 

@@ -15,6 +15,9 @@ rm -rf ../assets/admin
 mkdir -p ../assets/admin
 tar xf "dist_prod/admin_panel.tar.gz" --strip-components 1 -C "../assets/admin"
 
-rm -rf ../../sea-orm-pro/assets/admin
-mkdir -p ../../sea-orm-pro/assets/admin
-tar xf "dist_prod/admin_panel.tar.gz" --strip-components 1 -C "../../sea-orm-pro/assets/admin"
+if [ -d ../../sea-orm-pro ]; then
+    echo "../../sea-orm-pro";
+    rm -rf ../../sea-orm-pro/assets/admin
+    mkdir -p ../../sea-orm-pro/assets/admin
+    tar xf "dist_prod/admin_panel.tar.gz" --strip-components 1 -C "../../sea-orm-pro/assets/admin"
+fi

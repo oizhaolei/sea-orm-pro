@@ -4,6 +4,10 @@ hidden_columns = [
     "rowguid",
 ]
 
+[editor]
+enable = true
+title_field = "name"
+
 [create]
 enable = true
 

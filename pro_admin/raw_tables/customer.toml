@@ -22,6 +22,10 @@ hidden_columns = [
     "middle_name",
 ]
 
+[editor]
+enable = true
+title_field = "first_name"
+
 [create]
 enable = true
 
