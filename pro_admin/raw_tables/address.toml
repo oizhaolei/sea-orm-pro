@@ -13,7 +13,7 @@ hidden_columns = [
 
 [editor]
 enable = true
-title_field = "address_type"
+title_field = "address_line1"
 fields = [
     { title = "ID", field = "address_id", span = 8 },
     { field = "rowguid", span = 8 },

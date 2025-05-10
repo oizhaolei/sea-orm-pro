@@ -16,6 +16,9 @@ hidden_columns = [
     "rowguid",
 ]
 
+[editor]
+enable = true
+
 [create]
 enable = true
 

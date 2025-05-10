@@ -35,6 +35,10 @@ hidden_columns = [
     "thumb_nail_photo",
 ]
 
+[editor]
+enable = true
+title_field = "name"
+
 [create]
 # Enable create for this table
 enable = true
