@@ -2,8 +2,8 @@ use loco_rs::{environment::Environment, prelude::*};
 use migration::{IntoColumnRef, IntoIden};
 use sea_orm::{
     prelude::DateTime,
-    sea_query::{Alias, Asterisk, Expr, Func},
-    DatabaseBackend, DbConn, DeriveCustomColumn, FromQueryResult, IdenStatic, IntoSimpleExpr,
+    sea_query::{Alias, Asterisk, Expr, Func, SimpleExpr},
+    DatabaseBackend, DbConn, DeriveCustomColumn, FromQueryResult, IdenStatic,
     QueryOrder, QuerySelect,
 };
 use sea_orm_pro::{ConfigParser, JsonCfg};
@@ -67,7 +67,7 @@ pub async fn dashboard(
             customer::Entity::find()
                 .select_only()
                 .column_as(
-                    cast_as_year_month(db, customer::Column::CreatedDate),
+                    Expr::expr(cast_as_year_month(db, customer::Column::CreatedDate)),
                     DatumColumn::Key,
                 )
                 .column_as(
@@ -88,12 +88,14 @@ pub async fn dashboard(
             sales_order_detail::Entity::find()
                 .select_only()
                 .column_as(
-                    cast_as_day(
-                        db,
-                        (
-                            sales_order_header::Entity,
-                            sales_order_header::Column::OrderDate,
-                        ),
+                    Expr::expr(
+                        cast_as_day(
+                            db,
+                            (
+                                sales_order_header::Entity,
+                                sales_order_header::Column::OrderDate,
+                            ),
+                        )
                     ),
                     DatumColumn::Key,
                 )
@@ -156,7 +158,7 @@ pub async fn dashboard(
     format::json(data)
 }
 
-fn cast_as_year_month(db: &DbConn, col: impl IntoColumnRef) -> impl IntoSimpleExpr {
+fn cast_as_year_month(db: &DbConn, col: impl IntoColumnRef) -> SimpleExpr {
     let func = match db.get_database_backend() {
         DatabaseBackend::MySql => Func::cust(Alias::new("DATE_FORMAT"))
             .arg(Expr::col(col.into_column_ref()))
@@ -168,10 +170,10 @@ fn cast_as_year_month(db: &DbConn, col: impl IntoColumnRef) -> impl IntoSimpleEx
             .arg("%Y-%m")
             .arg(Expr::col(col.into_column_ref())),
     };
-    Expr::expr(func)
+    func.into()
 }
 
-fn cast_as_day(db: &DbConn, col: impl IntoColumnRef) -> impl IntoSimpleExpr {
+fn cast_as_day(db: &DbConn, col: impl IntoColumnRef) -> SimpleExpr {
     let func = match db.get_database_backend() {
         DatabaseBackend::MySql => Func::cust(Alias::new("DATE_FORMAT"))
             .arg(Expr::col(col.into_column_ref()))
@@ -183,7 +185,7 @@ fn cast_as_day(db: &DbConn, col: impl IntoColumnRef) -> impl IntoSimpleExpr {
             .arg("%Y-%m-%d")
             .arg(Expr::col(col.into_column_ref())),
     };
-    Expr::expr(func)
+    func.into()
 }
 
 fn int_keyword(db: &DbConn) -> impl IntoIden {
