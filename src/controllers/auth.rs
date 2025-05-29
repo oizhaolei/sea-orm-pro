@@ -1,14 +1,17 @@
+use loco_openapi::prelude::*;
 use crate::models::user;
 use loco_rs::{auth::jwt, hash, prelude::*};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+pub const AUTH_TAG: &str = "Auth";
+
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct PasswordLoginParams {
     pub email: String,
     pub password: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct LoginResponse {
     pub token: String,
     pub pid: String,
@@ -27,6 +30,19 @@ impl LoginResponse {
     }
 }
 
+
+/// Login
+///
+/// Try to login with email and password.
+#[utoipa::path(
+        tag = AUTH_TAG,
+        post,
+        path = "/api/auth/login",
+        request_body(content=PasswordLoginParams, content_type="application/json", description="login"),
+        responses(
+            (status = 200, description = "User login successfully", body = LoginResponse)
+        )
+)]
 async fn login(
     State(ctx): State<AppContext>,
     Json(params): Json<PasswordLoginParams>,
@@ -64,5 +80,5 @@ pub fn routes() -> Routes {
         // Authentication route prefix
         .prefix("auth")
         // Handling login with password
-        .add("/login", post(login))
+        .add("/login", openapi(post(login), routes!(login)))
 }

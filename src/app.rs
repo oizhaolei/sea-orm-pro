@@ -1,8 +1,9 @@
 use std::path::Path;
+use loco_openapi::prelude::*;
 
 use async_trait::async_trait;
 use loco_rs::{
-    app::{AppContext, Hooks},
+    app::{AppContext, Hooks, Initializer},
     bgworker::Queue,
     boot::{create_app, BootResult, StartMode},
     config::Config,
@@ -38,6 +39,32 @@ impl Hooks for App {
         config: Config,
     ) -> Result<BootResult> {
         create_app::<Self, Migrator>(mode, environment, config).await
+    }
+
+    async fn initializers(_ctx: &AppContext) -> Result<Vec<Box<dyn Initializer>>> {
+        Ok(vec![Box::new(
+            loco_openapi::OpenapiInitializerWithSetup::new(
+                |ctx| {
+                    #[derive(OpenApi)]
+                    #[openapi(
+                    modifiers(&SecurityAddon),
+                    info(
+                        title = "SeaORM Pro",
+                        description = "Some REST API for SeaORM Pro."
+                    )
+                )]
+                    struct ApiDoc;
+                    set_jwt_location(ctx.into());
+
+                    ApiDoc::openapi()
+                },
+                // When using automatic schema collection only
+                None,
+                // When using manual schema collection
+                // Manual schema collection can also be used at the same time as automatic schema collection
+                // Some(vec![controllers::album::api_routes()]),
+            ),
+        )])
     }
 
     fn routes(_ctx: &AppContext) -> AppRoutes {
