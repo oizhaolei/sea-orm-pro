@@ -9,6 +9,7 @@ pub mod baker;
 pub mod bakery;
 pub mod cake;
 pub mod cake_baker;
+pub mod casbin_rule;
 pub mod customer;
 pub mod customer_address;
 pub mod product;
@@ -26,6 +27,7 @@ seaography::register_entity_modules!([
     bakery,
     cake,
     cake_baker,
+    casbin_rule,
     customer,
     customer_address,
     product,
@@ -35,4 +37,5 @@ seaography::register_entity_modules!([
     product_model_product_description,
     sales_order_detail,
     sales_order_header,
+    user,
 ]);

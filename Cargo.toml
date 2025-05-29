@@ -37,6 +37,8 @@ validator = { version = "0.20" }
 loco-openapi = { version = "*", features = [
     "full",
 ], git = "https://github.com/loco-rs/loco-openapi-Initializer", branch = "main" }
+sea-orm-adapter = { git = "https://github.com/ZihanType/sea-orm-adapter" }
+casbin = { version = "2.10.1", features = ["logging", "tokio"] }
 
 [dev-dependencies]
 loco-rs = { workspace = true, features = ["testing"] }

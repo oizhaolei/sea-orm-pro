@@ -5,6 +5,7 @@ pub use super::baker::Entity as Baker;
 pub use super::bakery::Entity as Bakery;
 pub use super::cake::Entity as Cake;
 pub use super::cake_baker::Entity as CakeBaker;
+pub use super::casbin_rule::Entity as CasbinRule;
 pub use super::customer::Entity as Customer;
 pub use super::customer_address::Entity as CustomerAddress;
 pub use super::product::Entity as Product;

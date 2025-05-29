@@ -1,5 +1,5 @@
-use loco_openapi::prelude::*;
 use crate::models::user;
+use loco_openapi::prelude::*;
 use loco_rs::{auth::jwt, hash, prelude::*};
 use serde::{Deserialize, Serialize};
 
@@ -29,7 +29,6 @@ impl LoginResponse {
         }
     }
 }
-
 
 /// Login
 ///

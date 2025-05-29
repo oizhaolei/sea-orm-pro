@@ -1,5 +1,13 @@
 # SeaORM Pro
 
+## TODO & DONE
+
+- [x] version up `loco`
+- [x] openapi - `utoipa`
+- [x] RBAC - `casbin`
+- [x] [Frontend using  `React Admin`](https://github.com/oizhaolei/sea-orm-pro-frontend-ra)
+
+
 <img src="https://www.sea-ql.org/sea-orm-pro/img/01_banner.png" width="100%"/>
 
 

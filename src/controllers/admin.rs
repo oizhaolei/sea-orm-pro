@@ -3,8 +3,8 @@ use migration::{IntoColumnRef, IntoIden};
 use sea_orm::{
     prelude::DateTime,
     sea_query::{Alias, Asterisk, Expr, Func, SimpleExpr},
-    DatabaseBackend, DbConn, DeriveCustomColumn, FromQueryResult, IdenStatic,
-    QueryOrder, QuerySelect,
+    DatabaseBackend, DbConn, DeriveCustomColumn, FromQueryResult, IdenStatic, QueryOrder,
+    QuerySelect,
 };
 use sea_orm_pro::{ConfigParser, JsonCfg};
 use seaography::lazy_static;
@@ -88,15 +88,13 @@ pub async fn dashboard(
             sales_order_detail::Entity::find()
                 .select_only()
                 .column_as(
-                    Expr::expr(
-                        cast_as_day(
-                            db,
-                            (
-                                sales_order_header::Entity,
-                                sales_order_header::Column::OrderDate,
-                            ),
-                        )
-                    ),
+                    Expr::expr(cast_as_day(
+                        db,
+                        (
+                            sales_order_header::Entity,
+                            sales_order_header::Column::OrderDate,
+                        ),
+                    )),
                     DatumColumn::Key,
                 )
                 .column_as(
