@@ -5,6 +5,10 @@ mod utils;
 pub mod prelude;
 
 pub mod address;
+pub mod baker;
+pub mod bakery;
+pub mod cake;
+pub mod cake_baker;
 pub mod customer;
 pub mod customer_address;
 pub mod product;
@@ -18,6 +22,10 @@ pub mod user;
 
 seaography::register_entity_modules!([
     address,
+    baker,
+    bakery,
+    cake,
+    cake_baker,
     customer,
     customer_address,
     product,
