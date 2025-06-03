@@ -1,5 +1,5 @@
-use std::path::Path;
 use loco_openapi::prelude::*;
+use std::path::Path;
 
 use async_trait::async_trait;
 use loco_rs::{
@@ -14,7 +14,7 @@ use loco_rs::{
 };
 use migration::Migrator;
 
-use crate::{controllers, initializers::casbin_enforcer::CasbinEnforcerInitializer, tasks};
+use crate::{controllers, tasks};
 
 pub struct App;
 #[async_trait]
@@ -42,8 +42,8 @@ impl Hooks for App {
     }
 
     async fn initializers(_ctx: &AppContext) -> Result<Vec<Box<dyn Initializer>>> {
-        Ok(vec![
-            Box::new(loco_openapi::OpenapiInitializerWithSetup::new(
+        Ok(vec![Box::new(
+            loco_openapi::OpenapiInitializerWithSetup::new(
                 |ctx| {
                     #[derive(OpenApi)]
                     #[openapi(
@@ -63,9 +63,8 @@ impl Hooks for App {
                 // When using manual schema collection
                 // Manual schema collection can also be used at the same time as automatic schema collection
                 // Some(vec![controllers::album::api_routes()]),
-            )),
-            Box::new(CasbinEnforcerInitializer),
-        ])
+            ),
+        )])
     }
 
     fn routes(_ctx: &AppContext) -> AppRoutes {

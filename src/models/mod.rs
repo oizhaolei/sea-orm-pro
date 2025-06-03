@@ -27,7 +27,7 @@ seaography::register_entity_modules!([
     bakery,
     cake,
     cake_baker,
-    casbin_rule,
+    casbin_rule, // TODO: delete from graphql
     customer,
     customer_address,
     product,
@@ -37,5 +37,5 @@ seaography::register_entity_modules!([
     product_model_product_description,
     sales_order_detail,
     sales_order_header,
-    user,
+    user, // TODO: delete from graphql
 ]);

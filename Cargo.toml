@@ -35,8 +35,8 @@ encoding_rs = "0.8"
 encoding_rs_io = "0.1"
 validator = { version = "0.20" }
 loco-openapi = { version = "*", features = [
-    "full",
-], git = "https://github.com/loco-rs/loco-openapi-Initializer", branch = "main" }
+    "full" ,
+], git = "https://github.com/oizhaolei/loco-openapi-Initializer", branch = "main" }
 sea-orm-adapter = { git = "https://github.com/ZihanType/sea-orm-adapter" }
 casbin = { version = "2.10.1", features = ["logging", "tokio"] }
 
