@@ -7,7 +7,7 @@ use loco_rs::{hash, prelude::*};
 use sea_orm::DeleteResult;
 use serde::{Deserialize, Serialize};
 
-use super::auth::create_enforcer;
+use super::auth::{create_enforcer, PolicyParams};
 
 pub const USERS_TAG: &str = "Users";
 
@@ -21,24 +21,7 @@ pub struct CurrentResponse {
     pub pid: String,
     pub name: String,
     pub email: String,
-    pub permissions: Vec<Permission>,
-}
-
-#[derive(Debug, Deserialize, Serialize, ToSchema)]
-pub struct Permission {
-    pub name: String,
-    pub resource: String,
-    pub action: String,
-}
-
-impl From<Vec<String>> for Permission {
-    fn from(vec: Vec<String>) -> Self {
-        Permission {
-            name: vec.first().cloned().unwrap_or_default(),
-            resource: vec.get(1).cloned().unwrap_or_default(),
-            action: vec.get(2).cloned().unwrap_or_default(),
-        }
-    }
+    pub permissions: Vec<PolicyParams>,
 }
 
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
@@ -81,10 +64,10 @@ async fn current(auth: auth::JWT, State(ctx): State<AppContext>) -> Result<Respo
     // my permissions
     let e = create_enforcer(ctx.db.clone()).await;
 
-    let permissions: Vec<Permission> = e
+    let permissions: Vec<PolicyParams> = e
         .get_implicit_permissions_for_user(&user.email, None)
         .into_iter()
-        .map(Permission::from)
+        .map(PolicyParams::from)
         .collect();
 
     format::json(CurrentResponse {
@@ -149,10 +132,10 @@ async fn get_one(
     // my permissions
     let e = create_enforcer(ctx.db.clone()).await;
 
-    let permissions: Vec<Permission> = e
+    let permissions: Vec<PolicyParams> = e
         .get_implicit_permissions_for_user(&user.email, None)
         .into_iter()
-        .map(Permission::from)
+        .map(PolicyParams::from)
         .collect();
 
     format::json(CurrentResponse {

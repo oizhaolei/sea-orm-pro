@@ -37,5 +37,5 @@ seaography::register_entity_modules!([
     product_model_product_description,
     sales_order_detail,
     sales_order_header,
-    user, // TODO: delete from graphql
+    user,
 ]);

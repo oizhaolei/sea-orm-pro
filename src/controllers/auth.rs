@@ -10,15 +10,25 @@ pub const AUTH_TAG: &str = "Auth";
 
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct PolicyParams {
-    pub name: String,
-    pub resource: String,
+    pub subject: String,
+    pub object: String,
     pub action: String,
 }
 
 impl PolicyParams {
     fn to_vec(&self) -> Vec<String> {
-        let array = [&self.name, &self.resource, &self.action];
+        let array = [&self.subject, &self.object, &self.action];
         array.iter().map(|s| s.to_string()).collect()
+    }
+}
+
+impl From<Vec<String>> for PolicyParams {
+    fn from(vec: Vec<String>) -> Self {
+        PolicyParams {
+            subject: vec.first().cloned().unwrap_or_default(),
+            object: vec.get(1).cloned().unwrap_or_default(),
+            action: vec.get(2).cloned().unwrap_or_default(),
+        }
     }
 }
 
@@ -229,6 +239,36 @@ async fn add_policy(
     }
 }
 
+/// remove_policy
+#[utoipa::path(
+    post,
+    path = "/api/auth/remove_policy",
+    request_body(content=PolicyParams, content_type="application/json", description=""),
+    responses((status = OK, body = String)),
+    security(("jwt_token" = [])),
+    tag = AUTH_TAG
+)]
+async fn remove_policy(
+    State(ctx): State<AppContext>,
+    Json(params): Json<PolicyParams>,
+) -> Result<Response> {
+    // my permissions
+    let mut e = create_enforcer(ctx.db.clone()).await;
+    let params = params.to_vec();
+
+    let all = e.remove_policy(params).await;
+
+    match all {
+        Ok(removed) => {
+            println!("Policy removeed: {:?}", removed);
+            format::json(removed)
+        }
+        Err(_e) => {
+            bad_request("Failed to remove policy.")
+        },
+    }
+}
+
 pub fn routes() -> Routes {
     Routes::new()
         // Authentication route prefix
@@ -265,5 +305,9 @@ pub fn routes() -> Routes {
         .add(
             "/add_policy",
             openapi(post(add_policy), routes!(add_policy)),
+        )
+        .add(
+            "/remove_policy",
+            openapi(post(remove_policy), routes!(remove_policy)),
         )
 }
