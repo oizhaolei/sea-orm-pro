@@ -39,6 +39,7 @@ loco-openapi = { version = "*", features = [
 ], git = "https://github.com/oizhaolei/loco-openapi-Initializer", branch = "main" }
 sea-orm-adapter = { git = "https://github.com/ZihanType/sea-orm-adapter" }
 casbin = { version = "2.10.1", features = ["logging", "tokio"] }
+axum-casbin = "1.2.0"
 
 [dev-dependencies]
 loco-rs = { workspace = true, features = ["testing"] }

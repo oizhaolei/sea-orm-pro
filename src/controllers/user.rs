@@ -1,13 +1,16 @@
+use std::sync::Arc;
+
 use crate::models::user;
 
-use axum::debug_handler;
-use casbin::RbacApi;
+use axum::{debug_handler, Extension};
+use casbin::{CachedEnforcer, RbacApi};
 use loco_openapi::prelude::*;
 use loco_rs::{hash, prelude::*};
 use sea_orm::DeleteResult;
 use serde::{Deserialize, Serialize};
+use tokio::sync::RwLock;
 
-use super::auth::{create_enforcer, PolicyParams};
+use super::auth::PolicyParams;
 
 pub const USERS_TAG: &str = "Users";
 
@@ -49,7 +52,11 @@ pub struct UpdateUserParams {
     responses((status = OK, body = CurrentResponse)),
 )]
 #[debug_handler]
-async fn current(auth: auth::JWT, State(ctx): State<AppContext>) -> Result<Response> {
+async fn current(
+    auth: auth::JWT,
+    State(ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // Give the JWT is valid, return the user profile
     let email = &auth.claims.pid;
     // Find user by email
@@ -62,13 +69,13 @@ async fn current(auth: auth::JWT, State(ctx): State<AppContext>) -> Result<Respo
     };
 
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
-
-    let permissions: Vec<PolicyParams> = e
+    let lock = enforcer.write().await;
+    let permissions: Vec<PolicyParams> = lock
         .get_implicit_permissions_for_user(&user.email, None)
         .into_iter()
         .map(PolicyParams::from)
         .collect();
+    drop(lock);
 
     format::json(CurrentResponse {
         pid: user.pid.to_string(),
@@ -129,20 +136,11 @@ async fn get_one(
         return not_found();
     };
 
-    // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
-
-    let permissions: Vec<PolicyParams> = e
-        .get_implicit_permissions_for_user(&user.email, None)
-        .into_iter()
-        .map(PolicyParams::from)
-        .collect();
-
     format::json(CurrentResponse {
         pid: user.pid.to_string(),
         name: user.name.to_string(),
         email: user.email.to_string(),
-        permissions,
+        permissions: vec![],
     })
 }
 

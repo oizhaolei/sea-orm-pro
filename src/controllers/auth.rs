@@ -1,10 +1,13 @@
+use std::sync::Arc;
+
 use crate::models::user;
 
-use casbin::{CoreApi, DefaultModel, Enforcer, MgmtApi};
+use axum::extract::Extension;
+use casbin::{CachedEnforcer, MgmtApi};
 use loco_openapi::prelude::*;
 use loco_rs::{auth::jwt, hash, prelude::*};
-use sea_orm_adapter::SeaOrmAdapter;
 use serde::{Deserialize, Serialize};
+use tokio::sync::RwLock;
 
 pub const AUTH_TAG: &str = "Auth";
 
@@ -57,15 +60,6 @@ impl LoginResponse {
     }
 }
 
-pub async fn create_enforcer(db: DatabaseConnection) -> Enforcer {
-    let m = DefaultModel::from_file("config/rbac_model.conf")
-        .await
-        .unwrap();
-
-    let a = SeaOrmAdapter::new(db).await.unwrap();
-    Enforcer::new(m, a).await.unwrap()
-}
-
 /// Login
 ///
 /// Try to login with email and password.
@@ -115,11 +109,15 @@ async fn login(State(ctx): State<AppContext>, Json(params): Json<LoginParams>) -
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_policy(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_policy(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_policy();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_policy();
+    drop(lock);
 
     format::json(all)
 }
@@ -132,11 +130,15 @@ async fn get_all_policy(State(ctx): State<AppContext>) -> Result<Response> {
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_grouping_policy(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_grouping_policy(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_grouping_policy();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_grouping_policy();
+    drop(lock);
 
     format::json(all)
 }
@@ -149,11 +151,15 @@ async fn get_all_grouping_policy(State(ctx): State<AppContext>) -> Result<Respon
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_subjects(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_subjects(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_subjects();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_subjects();
+    drop(lock);
 
     format::json(all)
 }
@@ -166,11 +172,15 @@ async fn get_all_subjects(State(ctx): State<AppContext>) -> Result<Response> {
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_objects(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_objects(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_objects();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_objects();
+    drop(lock);
 
     format::json(all)
 }
@@ -183,11 +193,15 @@ async fn get_all_objects(State(ctx): State<AppContext>) -> Result<Response> {
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_actions(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_actions(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_actions();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_actions();
+    drop(lock);
 
     format::json(all)
 }
@@ -200,11 +214,15 @@ async fn get_all_actions(State(ctx): State<AppContext>) -> Result<Response> {
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn get_all_roles(State(ctx): State<AppContext>) -> Result<Response> {
+async fn get_all_roles(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
+) -> Result<Response> {
     // my permissions
-    let e = create_enforcer(ctx.db.clone()).await;
 
-    let all = e.get_all_roles();
+    let lock = enforcer.write().await;
+    let all = lock.get_all_roles();
+    drop(lock);
 
     format::json(all)
 }
@@ -218,24 +236,24 @@ async fn get_all_roles(State(ctx): State<AppContext>) -> Result<Response> {
     security(("jwt_token" = [])),
     tag = AUTH_TAG
 )]
-async fn add_policy(
-    State(ctx): State<AppContext>,
+pub async fn add_policy(
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
     Json(params): Json<PolicyParams>,
 ) -> Result<Response> {
     // my permissions
-    let mut e = create_enforcer(ctx.db.clone()).await;
     let params = params.to_vec();
 
-    let all = e.add_policy(params).await;
+    let mut lock = enforcer.write().await;
+    let all = lock.add_policy(params).await;
+    drop(lock);
 
     match all {
         Ok(added) => {
             println!("Policy added: {:?}", added);
             format::json(added)
         }
-        Err(_e) => {
-            bad_request("Failed to add policy.")
-        },
+        Err(_e) => bad_request("Failed to add policy."),
     }
 }
 
@@ -249,23 +267,23 @@ async fn add_policy(
     tag = AUTH_TAG
 )]
 async fn remove_policy(
-    State(ctx): State<AppContext>,
+    State(_ctx): State<AppContext>,
+    Extension(enforcer): Extension<Arc<RwLock<CachedEnforcer>>>,
     Json(params): Json<PolicyParams>,
 ) -> Result<Response> {
     // my permissions
-    let mut e = create_enforcer(ctx.db.clone()).await;
     let params = params.to_vec();
 
-    let all = e.remove_policy(params).await;
+    let mut lock = enforcer.write().await;
+    let all = lock.remove_policy(params).await;
+    drop(lock);
 
     match all {
         Ok(removed) => {
             println!("Policy removeed: {:?}", removed);
             format::json(removed)
         }
-        Err(_e) => {
-            bad_request("Failed to remove policy.")
-        },
+        Err(_e) => bad_request("Failed to remove policy."),
     }
 }
 
