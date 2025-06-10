@@ -9,6 +9,7 @@ use loco_rs::{
     config::Config,
     controller::AppRoutes,
     environment::Environment,
+    storage::{self, Storage},
     task::Tasks,
     Result,
 };
@@ -74,8 +75,24 @@ impl Hooks for App {
             .prefix("/api")
             .add_route(controllers::auth::routes())
             .add_route(controllers::user::routes())
+            .add_route(controllers::upload::routes())
             .add_route(controllers::graphql::routes())
             .add_route(controllers::admin::routes())
+    }
+
+    async fn after_context(ctx: AppContext) -> Result<AppContext> {
+        let store = if ctx.environment == Environment::Test {
+            storage::drivers::mem::new()
+        } else {
+            storage::drivers::local::new_with_prefix("storage-uploads").map_err(Box::from)?
+        };
+
+        Ok(AppContext {
+            storage: Storage::single(store).into(),
+            ..ctx
+        })
+
+        // Ok(ctx)
     }
 
     async fn connect_workers(_ctx: &AppContext, _queue: &Queue) -> Result<()> {

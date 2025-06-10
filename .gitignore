@@ -21,3 +21,4 @@ target/
 *.sqlite-wal
 
 .DS_Store
+/storage-uploads/
